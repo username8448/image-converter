@@ -18,14 +18,14 @@
     position: absolute;
     top: 20px;
     right: 20px;
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid #F97316;
-    border-radius: 50%;
-    color: #F97316;
-    font-size: 36px;
-    line-height: 46px;
+    width: 42px;
+    height: 42px;
+    background: var(--gray-900, #111111);
+    border: 1px solid var(--accent, #F97316);
+    border-radius: var(--radius-sm, 4px);
+    color: var(--accent, #F97316);
+    font-size: 30px;
+    line-height: 38px;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -34,7 +34,7 @@
 }
 
 .preview-close:hover {
-    background: rgba(249, 115, 22, 0.2);
+    background: var(--orange-dim, rgba(249, 115, 22, 0.15));
     transform: rotate(90deg);
 }
 
@@ -66,9 +66,9 @@
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid #F97316;
-    border-radius: 8px;
+    background: rgba(10, 10, 10, 0.88);
+    border: 1px solid var(--border-strong, #252525);
+    border-radius: var(--radius-md, 8px);
     padding: 12px 24px;
     display: flex;
     gap: 20px;
@@ -78,7 +78,7 @@
 }
 
 #zoom-level {
-    color: #F97316;
+    color: var(--accent, #F97316);
     font-weight: bold;
     font-size: 18px;
     min-width: 60px;
@@ -86,7 +86,7 @@
 }
 
 .preview-hint {
-    color: #888;
+    color: var(--muted, #777777);
     font-size: 12px;
     white-space: nowrap;
 }

@@ -1,12 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Syne:wght@400;500;600;700;800&display=swap');
+
 :root {
-  --bg: #000;
-  --text: #fff;
-  --muted: #888;
-  --accent: #F97316;
-  --danger: #ff5f5f;
-  --warn: #ffc857;
-  --border: #333;
-  --border-strong: #444;
+  --black: #000000;
+  --white: #FFFFFF;
+  --orange: #F97316;
+  --orange-dim: rgba(249, 115, 22, 0.15);
+  --orange-glow: rgba(249, 115, 22, 0.08);
+  --gray-950: #0A0A0A;
+  --gray-900: #111111;
+  --gray-850: #161616;
+  --gray-800: #1A1A1A;
+  --gray-750: #1F1F1F;
+  --gray-700: #252525;
+  --gray-600: #333333;
+  --gray-500: #555555;
+  --gray-400: #777777;
+  --gray-300: #999999;
+  --gray-200: #BBBBBB;
+  --gray-100: #DDDDDD;
+  --green: #22c55e;
+  --yellow: #eab308;
+  --red: #ef4444;
+  --bg: var(--black);
+  --panel: var(--gray-950);
+  --panel-raised: var(--gray-900);
+  --text: var(--white);
+  --muted: var(--gray-400);
+  --accent: var(--orange);
+  --danger: var(--red);
+  --warn: var(--yellow);
+  --border: var(--gray-800);
+  --border-strong: var(--gray-700);
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Consolas', 'Courier New', monospace;
+  --radius-sm: 4px;
+  --radius-md: 8px;
   --settings-panel-width: 320px;
 }
 
@@ -16,22 +44,31 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 50% 48%, rgba(249, 115, 22, 0.045), transparent 26%),
+    var(--bg);
   color: var(--text);
-  font-family: 'Consolas', 'Courier New', monospace;
+  font-family: var(--font-mono);
+  font-size: 14px;
   height: 100dvh;
   min-height: 100dvh;
-  padding: 10px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
   overflow-y: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {
-  margin: 0 0 10px;
-  color: var(--accent);
-  font-size: 24px;
+  margin: 0 0 12px;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
 }
 
 h1 a {
@@ -54,7 +91,7 @@ html.embedded h1 {
 .container {
   display: flex;
   flex: 1;
-  gap: 15px;
+  gap: 12px;
   min-height: 0;
   align-items: flex-start;
 }
@@ -65,17 +102,18 @@ html.embedded h1 {
 
 form.settings-panel,
 .panel {
-  background: #000;
+  background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 15px;
+  border-radius: var(--radius-md);
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   max-height: 100%;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: var(--border) var(--bg);
+  scrollbar-color: var(--gray-600) var(--black);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.015);
 }
 
 form.settings-panel {
@@ -93,21 +131,41 @@ form.settings-panel {
 }
 
 label {
-  font-weight: bold;
-  font-size: 13px;
+  color: var(--gray-200);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 input[type='text'],
 input[type='number'],
-input[type='color'],
-input[type='range'],
 select {
-  padding: 8px;
-  border: 1px solid var(--border-strong);
-  border-radius: 4px;
-  background: #000;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--gray-900);
   color: var(--text);
   font-family: inherit;
+  font-size: 12px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+input[type='color'] {
+  min-height: 40px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--gray-900);
+  color: var(--text);
+}
+
+input[type='range'] {
+  accent-color: var(--accent);
+  min-height: 28px;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
 input[type='text']:focus,
@@ -117,6 +175,8 @@ input[type='range']:focus,
 select:focus {
   outline: none;
   border-color: var(--accent);
+  background: var(--black);
+  box-shadow: 0 0 0 2px var(--orange-glow);
 }
 
 .range-row {
@@ -130,15 +190,16 @@ select:focus {
   color: var(--muted);
   min-width: 48px;
   text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .options-row {
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
-  background: #000;
+  background: var(--black);
   padding: 10px;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   gap: 8px;
 }
@@ -148,7 +209,7 @@ select:focus {
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: var(--text);
+  color: var(--gray-200);
   cursor: pointer;
 }
 
@@ -158,15 +219,16 @@ select:focus {
 
 .main-button {
   background: var(--accent);
-  color: #000;
+  color: var(--black);
   padding: 10px;
   min-height: 42px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  border: none;
-  border-radius: 4px;
-  transition: opacity 0.2s;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  transition: opacity 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.1s ease;
   font-family: inherit;
+  font-size: 12px;
 }
 
 .main-button:hover {
@@ -178,14 +240,19 @@ select:focus {
   cursor: not-allowed;
 }
 
+.main-button:not(:disabled):active {
+  transform: translateY(1px);
+}
+
 .secondary-button {
-  background: #111;
+  background: var(--gray-900);
   color: var(--text);
-  border: 1px solid var(--border-strong);
+  border-color: var(--border);
 }
 
 .secondary-button:not(:disabled):hover {
   border-color: var(--accent);
+  background: var(--black);
 }
 
 .ingest-actions {
@@ -207,8 +274,8 @@ select:focus {
 
 .queue-list {
   border: 1px solid var(--border);
-  border-radius: 6px;
-  background: #060606;
+  border-radius: var(--radius-sm);
+  background: var(--black);
   max-height: 200px;
   overflow: auto;
   display: flex;
@@ -229,7 +296,7 @@ select:focus {
   gap: 8px;
   width: 100%;
   padding: 8px 10px;
-  border-bottom: 1px solid #121212;
+  border-bottom: 1px solid var(--gray-900);
   background: transparent;
   color: inherit;
   text-align: left;
@@ -238,7 +305,8 @@ select:focus {
 }
 
 .queue-item:last-child { border-bottom: none; }
-.queue-item.active { background: #1a0d03; }
+.queue-item:hover { background: var(--gray-900); }
+.queue-item.active { background: var(--orange-dim); }
 
 .queue-name {
   min-width: 0;
@@ -265,20 +333,20 @@ select:focus {
 }
 
 .queue-badge.pending { color: var(--muted); }
-.queue-badge.processing { color: var(--warn); border-color: #6e5216; }
-.queue-badge.saved, .queue-badge.done { color: var(--accent); border-color: #7a3b0b; }
+.queue-badge.processing { color: var(--warn); border-color: rgba(234, 179, 8, 0.45); }
+.queue-badge.saved, .queue-badge.done { color: var(--accent); border-color: rgba(249, 115, 22, 0.55); }
 
 .queue-remove {
   width: 22px;
   height: 22px;
   border: 1px solid var(--border);
-  border-radius: 4px;
-  background: #080808;
+  border-radius: var(--radius-sm);
+  background: var(--gray-900);
   color: var(--muted);
   cursor: pointer;
 }
 
-.queue-remove:hover { color: var(--danger); border-color: #5a1d1d; }
+.queue-remove:hover { color: var(--danger); border-color: rgba(239, 68, 68, 0.45); }
 .queue-remove:disabled { opacity: 0.4; cursor: not-allowed; }
 .output-wrapper { position: relative; }
 
@@ -289,5 +357,6 @@ select:focus {
   place-items: center;
   color: var(--muted);
   font-size: 13px;
+  letter-spacing: 0.02em;
   pointer-events: none;
 }

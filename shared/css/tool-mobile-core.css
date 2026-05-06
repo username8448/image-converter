@@ -72,10 +72,10 @@
     left: 8px;
     width: 18px;
     height: 48px;
-    border: 1px solid #333;
-    border-radius: 4px;
-    background: #080808;
-    color: #666;
+    border: 1px solid var(--border, #1A1A1A);
+    border-radius: var(--radius-sm, 4px);
+    background: var(--gray-900, #111111);
+    color: var(--gray-400, #777777);
     padding: 0;
     cursor: pointer;
     font-family: inherit;
@@ -89,14 +89,14 @@
   }
 
   .settings-toggle:hover {
-    border-color: #444;
-    color: #999;
+    border-color: var(--border-strong, #252525);
+    color: var(--gray-200, #BBBBBB);
   }
 
   body.settings-open .settings-toggle {
-    border-color: #F97316;
-    color: #F97316;
-    background: #1a0d03;
+    border-color: var(--accent, #F97316);
+    color: var(--accent, #F97316);
+    background: var(--orange-dim, rgba(249, 115, 22, 0.15));
   }
 
   input[type='text'],

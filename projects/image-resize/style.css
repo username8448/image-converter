@@ -16,17 +16,17 @@
 
 .field-caption {
   font-size: 11px;
-  color: #888;
+  color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .stats-panel {
-  border: 1px solid #333;
-  border-radius: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   padding: 8px;
   gap: 4px;
-  background: #050505;
+  background: var(--black);
 }
 
 .save-panel {

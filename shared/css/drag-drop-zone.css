@@ -7,24 +7,24 @@
     align-items: center;
     justify-content: center;
     padding: 15px;
-    border: 2px dashed #444;
-    border-radius: 8px;
-    background: #0a0a0a;
+    border: 1px dashed var(--border-strong, #252525);
+    border-radius: var(--radius-md, 8px);
+    background: var(--gray-950, #0A0A0A);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     min-height: 120px;
 }
 
 .drop-zone:hover {
-    border-color: #F97316;
-    background: #0f0f0f;
+    border-color: var(--accent, #F97316);
+    background: var(--gray-900, #111111);
 }
 
 .drop-zone.drag-over {
-    border-color: #F97316;
-    background: #0f0f0f;
+    border-color: var(--accent, #F97316);
+    background: var(--gray-900, #111111);
     transform: scale(1.02);
-    box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+    box-shadow: 0 0 0 2px var(--orange-glow, rgba(249, 115, 22, 0.08));
 }
 
 .drop-zone input[type="file"] {
@@ -42,12 +42,12 @@
     align-items: center;
     gap: 10px;
     pointer-events: none;
-    color: #888;
+    color: var(--muted, #777777);
     text-align: center;
 }
 
 .drop-zone-label svg {
-    color: #F97316;
+    color: var(--accent, #F97316);
     opacity: 0.7;
 }
 
