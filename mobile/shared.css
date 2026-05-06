@@ -1,0 +1,51 @@
+@media (max-width: 768px) {
+  .drop-zone {
+    padding: 18px;
+    min-height: 140px;
+  }
+
+  .drop-zone-label span {
+    font-size: 13px;
+  }
+
+  .original-preview {
+    width: 100%;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+  }
+
+  .preview-close {
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+    line-height: 36px;
+    top: calc(10px + env(safe-area-inset-top));
+    right: calc(10px + env(safe-area-inset-right));
+  }
+
+  .preview-controls {
+    left: 12px;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    transform: none;
+    max-width: calc(100vw - 24px);
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 10px 12px;
+  }
+
+  #zoom-level {
+    font-size: 16px;
+    min-width: 0;
+  }
+
+  .preview-hint {
+    white-space: normal;
+    line-height: 1.4;
+  }
+}

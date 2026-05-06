@@ -1,0 +1,57 @@
+@media (max-width: 768px) {
+  form {
+    flex: 0 0 auto;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .width-preview-row {
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 15px;
+  }
+
+  input[type='text'],
+  input[type='number'],
+  select,
+  .main-button,
+  .save-btn,
+  .preview-btn {
+    min-height: 44px;
+  }
+
+  .options-row {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  body {
+    padding: 10px;
+  }
+
+  .output-wrapper {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .options-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .checkbox-label {
+    width: 100%;
+  }
+
+  .save-buttons {
+    flex-direction: column;
+  }
+
+  .save-btn {
+    width: 100%;
+  }
+}

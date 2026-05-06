@@ -1,0 +1,27 @@
+:root {
+  --settings-panel-width: 320px;
+}
+
+.checkbox-label {
+  gap: 6px;
+  min-width: 130px;
+}
+
+.output-wrapper {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#outputCanvas {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  transform-origin: top left;
+}

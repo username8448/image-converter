@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ретро Пиксель</title>
+    <script>
+      (function initEmbedFlag() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1') {
+          document.documentElement.classList.add('embedded');
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="../../shared/css/tool-core.css" />
+    <link rel="stylesheet" href="../../shared/css/drag-drop-zone.css" />
+    <link rel="stylesheet" href="../../shared/css/original-image-preview.css" />
+    <link rel="stylesheet" href="../../shared/css/output-display.css" />
+    <link rel="stylesheet" href="../../shared/css/preview-modal.css" />
+    <link rel="stylesheet" href="../../shared/css/custom-scrollbars.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../../mobile/shared.css" />
+    <link rel="stylesheet" href="../../shared/css/tool-mobile-core.css" />
+    <link rel="stylesheet" href="../../mobile/retro.css" />
+  </head>
+  <body>
+    <h1>Ретро Пиксель</h1>
+    <button
+      type="button"
+      class="settings-toggle"
+      data-settings-toggle
+      aria-controls="controls"
+      aria-expanded="false"
+      aria-label="Открыть панель настроек"
+    >
+      >
+    </button>
+
+    <div class="container">
+      <form class="panel settings-panel" id="controls">
+        <div class="form-row">
+          <label>Изображение</label>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="imageInput" accept="image/*" multiple />
+            <input type="file" id="folderInput" webkitdirectory directory multiple hidden />
+            <div id="originalPreview" class="original-preview" style="display: none;">
+              <div class="preview-header">
+                <span>Оригинал</span>
+                <button type="button" id="removeImage" class="icon-btn" title="Удалить">×</button>
+              </div>
+              <img id="previewImg" src="" alt="Preview" />
+            </div>
+            <div class="drop-zone-label" id="dropZonePlaceholder">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span>Перетащите изображение<br>или нажмите для выбора</span>
+            </div>
+          </div>
+          <div class="ingest-actions">
+            <button type="button" class="main-button secondary-button mini-button" id="pickFilesBtn">Добавить файлы</button>
+            <button type="button" class="main-button secondary-button mini-button" id="pickFolderBtn">Добавить папку</button>
+            <button type="button" class="main-button secondary-button mini-button" id="clearQueueBtn">Очистить очередь</button>
+          </div>
+          <div class="file-name" id="fileName">Файл не выбран</div>
+          <div class="file-name" id="sizeLabel">—</div>
+        </div>
+
+        <div class="form-row">
+          <label>Очередь</label>
+          <div class="queue-list" id="queueList">
+            <div class="queue-empty">Добавьте файлы для обработки</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Палитра</label>
+          <select id="paletteSelect">
+            <option value="original" selected>Original</option>
+            <option value="gameboy">Game Boy</option>
+            <option value="cga">CGA</option>
+            <option value="pico8">PICO-8</option>
+            <option value="amber">Amber</option>
+            <option value="matrix">Matrix</option>
+            <option value="mono">Mono</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label>Пиксель</label>
+          <div class="range-row">
+            <input type="range" id="pixelSize" min="2" max="40" value="8" />
+            <span id="pixelValue">8px</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Дизеринг</label>
+          <select id="ditherSelect">
+            <option value="none" selected>Без</option>
+            <option value="ordered">Bayer 4x4</option>
+            <option value="floyd">Floyd-Steinberg</option>
+            <option value="atkinson">Atkinson</option>
+            <option value="jjn">Jarvis-Judice-Ninke</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label>Яркость</label>
+          <div class="range-row">
+            <input type="range" id="brightness" min="-50" max="50" value="0" />
+            <span id="brightnessValue">0</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Контраст</label>
+          <div class="range-row">
+            <input type="range" id="contrast" min="-50" max="50" value="10" />
+            <span id="contrastValue">10</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Насыщенность</label>
+          <div class="range-row">
+            <input type="range" id="saturation" min="0" max="200" value="110" />
+            <span id="saturationValue">110%</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Шум</label>
+          <div class="range-row">
+            <input type="range" id="noise" min="0" max="30" value="8" />
+            <span id="noiseValue">8</span>
+          </div>
+        </div>
+
+        <div class="form-row options-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="scanlines" checked /> Сканлайн
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="preserveAlpha" /> Прозрачность
+          </label>
+        </div>
+
+        <div class="form-row options-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="crtGlow" /> CRT Glow
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="pixelGrid" /> Pixel Grid
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="alphaThreshold" /> Alpha Threshold
+          </label>
+        </div>
+
+        <div class="form-row">
+          <button type="button" class="main-button" id="saveBtn">Сохранить PNG</button>
+          <button type="button" class="main-button secondary-button" id="saveZipBtn">Скачать все (.zip)</button>
+        </div>
+      </form>
+
+      <div class="output-wrapper">
+        <canvas id="outputCanvas"></canvas>
+        <div class="empty" id="emptyState">Загрузите изображение</div>
+      </div>
+    </div>
+
+    <div id="preview-modal" class="preview-modal" style="display: none;">
+      <div class="preview-close" id="preview-close">×</div>
+      <div class="preview-container">
+        <canvas id="preview-modal-canvas"></canvas>
+      </div>
+      <div class="preview-controls">
+        <span id="zoom-level">100%</span>
+        <span class="preview-hint">Клик: зум | ЛКМ: перемещение | ESC: закрыть</span>
+      </div>
+    </div>
+
+    <script src="../../shared/js/i18n.js"></script>
+    <script src="../../shared/js/app-core.js"></script>
+    <script src="../../shared/js/gif-worker-inline-source.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

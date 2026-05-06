@@ -1,0 +1,141 @@
+:root {
+  --bg: #000;
+  --panel: #070707;
+  --text: #fff;
+  --muted: #8e8e8e;
+  --accent: #F97316;
+  --border: #2b2b2b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Consolas', 'Courier New', monospace;
+  overflow: hidden;
+}
+
+.app-shell {
+  height: 100dvh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.app-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.1;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.tool-tabs {
+  display: inline-grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tool-tab {
+  border: 1px solid var(--border);
+  background: #101010;
+  color: var(--text);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.tool-tab:hover {
+  border-color: #3e3e3e;
+}
+
+.tool-tab.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: #1a0d03;
+}
+
+.tool-panels {
+  flex: 1;
+  min-height: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.tool-panel {
+  width: 100%;
+  height: 100%;
+}
+
+.tool-panel[hidden] {
+  display: none;
+}
+
+.tool-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  h1 {
+    font-size: 20px;
+    white-space: normal;
+  }
+
+  .tool-tabs {
+    width: 100%;
+  }
+
+  .tool-tab {
+    width: 100%;
+    min-height: 42px;
+  }
+}
+
+@media (max-width: 520px) {
+  h1 {
+    font-size: 18px;
+  }
+
+  .tool-tab {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+}

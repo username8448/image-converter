@@ -1,0 +1,54 @@
+
+
+.output-wrapper {
+    flex: 1;
+    display: flex;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    height: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: #333 #000;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+}
+
+#ascii-container,
+#preview-canvas {
+    cursor: pointer;
+}
+
+
+#ascii-container {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10px;
+    line-height: 10px;
+    white-space: pre;
+    color: #F97316;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-kerning: none;
+    font-feature-settings: normal;
+    text-indent: 0;
+    letter-spacing: 0;
+    width: fit-content;
+    height: fit-content;
+    transform-origin: top left;
+}
+
+#preview-canvas {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    transform-origin: top left;
+}

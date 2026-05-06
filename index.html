@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Image Converters</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <h1>Конвертер Изображений</h1>
+        <div class="tool-tabs" role="tablist" aria-label="Выбор инструмента">
+          <button
+            type="button"
+            class="tool-tab is-active"
+            role="tab"
+            id="tab-ascii"
+            aria-controls="panel-ascii"
+            aria-selected="true"
+            data-tool-tab="ascii"
+          >
+            ASCII
+          </button>
+          <button
+            type="button"
+            class="tool-tab"
+            role="tab"
+            id="tab-pixel"
+            aria-controls="panel-pixel"
+            aria-selected="false"
+            data-tool-tab="pixel"
+          >
+            PIXEL
+          </button>
+          <button
+            type="button"
+            class="tool-tab"
+            role="tab"
+            id="tab-resize"
+            aria-controls="panel-resize"
+            aria-selected="false"
+            data-tool-tab="resize"
+          >
+            RESIZE
+          </button>
+        </div>
+      </header>
+
+      <section class="tool-panels">
+        <section
+          class="tool-panel is-active"
+          id="panel-ascii"
+          role="tabpanel"
+          aria-labelledby="tab-ascii"
+        >
+          <iframe
+            id="frame-ascii"
+            class="tool-frame"
+            src="projects/ascii-convert/index.html?embed=1"
+            title="ASCII Converter"
+            loading="eager"
+          ></iframe>
+        </section>
+        <section
+          class="tool-panel"
+          id="panel-pixel"
+          role="tabpanel"
+          aria-labelledby="tab-pixel"
+          hidden
+        >
+          <iframe
+            id="frame-pixel"
+            class="tool-frame"
+            data-src="projects/retro-pixel/index.html?embed=1"
+            title="PIXEL Converter"
+            loading="lazy"
+          ></iframe>
+        </section>
+        <section
+          class="tool-panel"
+          id="panel-resize"
+          role="tabpanel"
+          aria-labelledby="tab-resize"
+          hidden
+        >
+          <iframe
+            id="frame-resize"
+            class="tool-frame"
+            data-src="projects/image-resize/index.html?embed=1"
+            title="Resize & Compress Tool"
+            loading="lazy"
+          ></iframe>
+        </section>
+      </section>
+    </main>
+    <script src="shared/js/shell-tabs.js"></script>
+  </body>
+</html>

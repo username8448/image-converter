@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Resize & Compress</title>
+    <script>
+      (function initEmbedFlag() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('embed') === '1') {
+          document.documentElement.classList.add('embedded');
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="../../shared/css/tool-core.css" />
+    <link rel="stylesheet" href="../../shared/css/drag-drop-zone.css" />
+    <link rel="stylesheet" href="../../shared/css/original-image-preview.css" />
+    <link rel="stylesheet" href="../../shared/css/output-display.css" />
+    <link rel="stylesheet" href="../../shared/css/preview-modal.css" />
+    <link rel="stylesheet" href="../../shared/css/custom-scrollbars.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../../mobile/shared.css" />
+    <link rel="stylesheet" href="../../shared/css/tool-mobile-core.css" />
+    <link rel="stylesheet" href="../../mobile/resize.css" />
+  </head>
+  <body>
+    <h1>Resize & Compress</h1>
+    <button
+      type="button"
+      class="settings-toggle"
+      data-settings-toggle
+      aria-controls="controls"
+      aria-expanded="false"
+      aria-label="Открыть панель настроек"
+    >
+      >
+    </button>
+
+    <div class="container">
+      <form class="panel settings-panel" id="controls">
+        <div class="form-row">
+          <label>Изображение</label>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="imageInput" accept="image/*" multiple />
+            <input type="file" id="folderInput" webkitdirectory directory multiple hidden />
+            <div id="originalPreview" class="original-preview" style="display: none;">
+              <div class="preview-header">
+                <span>Оригинал</span>
+                <button type="button" id="removeImage" class="icon-btn" title="Удалить">×</button>
+              </div>
+              <img id="previewImg" src="" alt="Preview" />
+            </div>
+            <div class="drop-zone-label" id="dropZonePlaceholder">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span>Перетащите изображение<br />или нажмите для выбора</span>
+            </div>
+          </div>
+          <div class="ingest-actions">
+            <button type="button" class="main-button secondary-button mini-button" id="pickFilesBtn">Добавить файлы</button>
+            <button type="button" class="main-button secondary-button mini-button" id="pickFolderBtn">Добавить папку</button>
+            <button type="button" class="main-button secondary-button mini-button" id="clearQueueBtn">Очистить очередь</button>
+          </div>
+          <div class="file-name" id="fileName">Очередь пуста</div>
+        </div>
+
+        <div class="form-row">
+          <label>Очередь</label>
+          <div class="queue-list" id="queueList">
+            <div class="queue-empty">Добавьте файлы для обработки</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Размер (px)</label>
+          <div class="dimension-grid">
+            <div class="dimension-field">
+              <span class="field-caption">Ширина</span>
+              <input type="number" id="widthInput" min="1" max="12000" value="1920" />
+            </div>
+            <div class="dimension-field">
+              <span class="field-caption">Высота</span>
+              <input type="number" id="heightInput" min="1" max="12000" value="1080" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Масштаб</label>
+          <div class="range-row">
+            <input type="range" id="scalePercent" min="5" max="400" value="100" />
+            <span id="scaleValue">100%</span>
+          </div>
+        </div>
+
+        <div class="form-row options-row">
+          <label class="checkbox-label">
+            <input type="checkbox" id="lockAspect" checked /> Сохранить пропорции
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="preventUpscale" checked /> Не увеличивать
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Формат</label>
+          <select id="formatSelect">
+            <option value="original" selected>Оригинальный</option>
+            <option value="jpeg">JPEG (JPG)</option>
+            <option value="webp">WebP</option>
+            <option value="png">PNG</option>
+          </select>
+        </div>
+
+        <div class="form-row" id="qualityRow">
+          <label>Качество сжатия</label>
+          <div class="range-row">
+            <input type="range" id="qualityInput" min="30" max="100" value="82" />
+            <span id="qualityValue">82%</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Ресемплинг</label>
+          <select id="resampleSelect">
+            <option value="high" selected>Высокий (чётче)</option>
+            <option value="medium">Средний</option>
+            <option value="low">Низкий (быстрее)</option>
+            <option value="pixelated">Пиксели (без сглаживания)</option>
+          </select>
+        </div>
+
+        <div class="form-row stats-panel">
+          <div class="file-name" id="sourceInfo">Исходник: —</div>
+          <div class="file-name" id="resultInfo">Результат: —</div>
+        </div>
+
+        <div class="form-row save-panel">
+          <button type="button" class="main-button" id="saveBtn">Сохранить файл</button>
+          <button type="button" class="main-button secondary-button" id="saveZipBtn">Скачать все (.zip)</button>
+        </div>
+      </form>
+
+      <div class="output-wrapper">
+        <canvas id="outputCanvas"></canvas>
+        <div class="empty" id="emptyState">Загрузите изображение</div>
+      </div>
+    </div>
+
+    <div id="preview-modal" class="preview-modal" style="display: none;">
+      <div class="preview-close" id="preview-close">×</div>
+      <div class="preview-container">
+        <canvas id="preview-modal-canvas"></canvas>
+      </div>
+      <div class="preview-controls">
+        <span id="zoom-level">100%</span>
+        <span class="preview-hint">Клик: зум | ЛКМ: перемещение | ESC: закрыть</span>
+      </div>
+    </div>
+
+    <script src="../../shared/js/i18n.js"></script>
+    <script src="../../shared/js/app-core.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

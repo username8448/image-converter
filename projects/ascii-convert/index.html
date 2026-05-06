@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASCII Конвертер</title>
+<script>
+  (function initEmbedFlag() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('embed') === '1') {
+      document.documentElement.classList.add('embedded');
+    }
+  })();
+</script>
+<link rel="stylesheet" href="../../shared/css/tool-core.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../../shared/css/drag-drop-zone.css">
+<link rel="stylesheet" href="../../shared/css/original-image-preview.css">
+<link rel="stylesheet" href="../../shared/css/output-display.css">
+<link rel="stylesheet" href="../../shared/css/preview-modal.css">
+<link rel="stylesheet" href="../../shared/css/custom-scrollbars.css">
+<link rel="stylesheet" href="../../mobile/shared.css">
+<link rel="stylesheet" href="../../shared/css/tool-mobile-core.css">
+<link rel="stylesheet" href="../../mobile/ascii.css">
+</head>
+<body>
+<h1>ASCII Конвертер</h1>
+<button
+  type="button"
+  class="settings-toggle"
+  data-settings-toggle
+  aria-controls="main-form"
+  aria-expanded="false"
+  aria-label="Открыть панель настроек"
+>
+  >
+</button>
+<div class="container">
+  <form id="main-form" class="settings-panel">
+    <div class="form-row">
+      <label>Изображение:</label>
+      
+      <div id="drop-zone" class="drop-zone">
+        <input type="file" id="image-file" accept="image/*" multiple>
+        <input type="file" id="folder-input" webkitdirectory directory multiple hidden>
+        
+        <div id="original-preview" class="original-preview" style="display: none;">
+          <div class="preview-header">
+            <span>Оригинал</span>
+            <button type="button" id="remove-image" class="icon-btn" title="Удалить">×</button>
+          </div>
+          <img id="preview-img" src="" alt="Preview">
+        </div>
+        
+        <div id="drop-zone-placeholder" class="drop-zone-label">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>Перетащите изображение<br>или нажмите для выбора<br><small style="opacity: 0.7;">Ctrl+V для вставки</small></span>
+        </div>
+      </div>
+
+      <div class="ingest-actions">
+        <button type="button" id="pick-files-btn" class="main-button secondary-button mini-button">Добавить файлы</button>
+        <button type="button" id="pick-folder-btn" class="main-button secondary-button mini-button">Добавить папку</button>
+        <button type="button" id="clear-queue-btn" class="main-button secondary-button mini-button">Очистить очередь</button>
+      </div>
+      <div class="file-name" id="file-name">Очередь пуста</div>
+    </div>
+
+    <div class="form-row">
+      <label>Очередь</label>
+      <div class="queue-list" id="queueList">
+        <div class="queue-empty">Добавьте файлы для обработки</div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Ширина (px):</label>
+      <div class="width-preview-row">
+        <input type="number" id="width" value="200" min="10" max="3000">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Набор символов:</label>
+      <select id="charset">
+        <option value=" .-+">Минимум ( .-+ )</option>
+        <option value=" .:-=+*">Небольшой ( .:-=+* )</option>
+        <option value=" .:-=+*iItVYX">Средний ( .:-=+*iItVYX )</option>
+        <option value=" .:-=+*iItVYXRBM#" selected>Максимум ( .:-=+*iItVYXRBM# )</option>
+        <option value=" ░▒▓█">Blocks ( ░▒▓█ )</option>
+        <option value=" ▁▂▃▄▅▆▇█">Boxes ( ▁▂▃▄▅▆▇█ )</option>
+        <option value=" ⠁⠂⠃⠄⠅⠆⠇⡀⡁⡂⡃⡄">Braille ( ⠁⠂⠃⠄⠅⠆⠇⡀⡁⡂⡃⡄ )</option>
+        <option value="contrast-optimized">Contrast-optimized</option>
+        <option value="custom">Свой набор...</option>
+      </select>
+      <input type="text" id="custom-charset-input" placeholder="Символы от темного к светлому" style="display: none; margin-top: 5px;">
+    </div>
+
+    <div class="form-row">
+      <label>Цвет:</label>
+      <select id="text-color">
+        <option value="original" selected>Цветной (PNG)</option>
+        <option value="#F97316">Оранжевый (Matrix)</option>
+        <option value="#cccccc">Серый (Терминал)</option>
+      </select>
+      <small id="color-hint" style="display:none; color: #888; font-size: 10px; margin-top:3px;">
+        * В превью будет белым, в PNG — цветным.
+      </small>
+    </div>
+
+    <div class="form-row options-row">
+      <label class="checkbox-label">
+        <input type="checkbox" id="contrast-check"> Авто-контраст
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" id="dither-check"> Дизеринг
+      </label>
+    </div>
+
+    <div class="form-row save-panel">
+      <div class="save-title">Сохранить</div>
+      <div class="save-buttons">
+        <button type="button" id="save-txt-button" class="main-button save-btn save-txt">TXT</button>
+        <button type="button" id="copy-button" class="main-button save-btn save-copy">КОП.</button>
+        <button type="button" id="save-png-button" class="main-button save-btn save-png">PNG</button>
+      </div>
+      <button type="button" id="save-zip-button" class="main-button secondary-button">Скачать все (.zip)</button>
+    </div>
+  </form>
+
+  <div class="output-wrapper">
+      <div id="ascii-container"></div>
+      <canvas id="preview-canvas" style="display: none;"></canvas>
+  </div>
+</div>
+
+<!-- Modal Preview Overlay -->
+<div id="preview-modal" class="preview-modal" style="display: none;">
+  <div class="preview-close" id="preview-close">×</div>
+  <div class="preview-container">
+    <canvas id="preview-modal-canvas"></canvas>
+  </div>
+  <div class="preview-controls">
+    <span id="zoom-level">100%</span>
+    <span class="preview-hint">Клик: зум | ЛКМ: перемещение | ESC: закрыть</span>
+  </div>
+</div>
+
+<script src="../../shared/js/i18n.js"></script>
+<script src="../../shared/js/app-core.js"></script>
+<script src="../../shared/js/gif-worker-inline-source.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
