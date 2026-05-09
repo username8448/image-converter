@@ -1,0 +1,26 @@
+{
+  "tasks": {
+    "check": "deno check src/**/*.ts scripts/*.ts",
+    "build": "deno run --allow-read --allow-write --allow-run scripts/build.ts",
+    "verify": "deno task check && deno task build && git diff --check"
+  },
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "lib": [
+      "deno.ns",
+      "deno.window",
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "types": [
+      "./src/types/globals.d.ts"
+    ]
+  }
+}
